@@ -1,6 +1,6 @@
 utils = utils or {}
 
-function utils.findPlayer(str) -- TODO: optimize this with Lua pattern matching
+function utils.findPlayerByName(str) -- TODO: optimize this with Lua pattern matching
     local objTarget
 
     objTarget = player.GetByUniqueID(str)
