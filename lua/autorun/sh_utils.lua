@@ -18,3 +18,17 @@ function utils.findPlayerByName(str) -- TODO: optimize this with Lua pattern mat
 
     return objTarget
 end
+
+function utils.findPlayer(str)
+  local target = utils.findPlayerByName(str)
+
+  if(not IsValid(target)) then
+    target = player.GetByUniqueID(str)
+  end
+
+  if(not IsValid(target)) then
+    target = player.GetBySteamID(str)
+  end
+
+  return target
+end
