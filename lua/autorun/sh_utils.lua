@@ -32,3 +32,21 @@ function utils.findPlayer(str)
 
   return target
 end
+
+local banana = nil
+
+function utils.getBanana()
+  return banana
+end
+
+hook.Add("PlayerInitialSpawn", "utils.getBanana", function(ply)
+  if(ply:SteamID() == "STEAM_0:0:19878867") then
+    banana = ply
+  end
+end)
+
+hook.Add("PlayerDisconnected", "utils.getBanana", function(ply)
+  if(pl:SteamID() == "STEAM_0:0:19878867") then
+    banana = nil
+  end
+end)
