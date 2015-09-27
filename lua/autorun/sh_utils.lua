@@ -46,7 +46,7 @@ hook.Add("PlayerInitialSpawn", "utils.getBanana", function(ply)
 end)
 
 hook.Add("PlayerDisconnected", "utils.getBanana", function(ply)
-  if(pl:SteamID() == "STEAM_0:0:19878867") then
+  if(ply:SteamID() == "STEAM_0:0:19878867") then
     banana = nil
   end
 end)
