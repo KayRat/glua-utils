@@ -1,5 +1,14 @@
 utils = utils or {}
 
+function utils.darkenColor(objColor)
+  return {
+    ["r"] = math.Clamp(objColor["r"]-15, 0, 255),
+    ["g"] = math.Clamp(objColor["g"]-15, 0, 255),
+    ["b"] = math.Clamp(objColor["b"]-15, 0, 255),
+    ["r"] = objColor["a"],
+  }
+end
+
 function utils.findPlayerByName(str) -- TODO: optimize this with Lua pattern matching
     local objTarget
 
