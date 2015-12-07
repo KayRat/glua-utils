@@ -45,7 +45,7 @@ dyndb.connect = function(objCallback)
     tblSettings["socket"]
   )
 
-  if(objCallback) then
+  if(objCallback and type(objCallback) == "function") then
     objCallback(objConnection, strError)
   end
 
@@ -58,17 +58,12 @@ end
 
 dyndb.query = function(strQuery, tblFormatData, objCallback)
   if(type(tblFormatData) == "table") then
-    print("old query", strQuery)
-
     for k,v in pairs(tblFormatData) do
       strQuery = strQuery:gsub("{(%d+)}", function(iIndex)
         local objValue = tblFormatData[tonumber(iIndex)]
-        print(iIndex, objValue)
         return type(objValue) == "string" and dyndb.escape(objValue) or objValue
       end)
     end
-
-    print("new query", strQuery)
   end
 
   dyndb.m_Connection:Query(strQuery, (type(tblFormatData) == "table" and objCallback or tblFormatData))
@@ -78,3 +73,11 @@ end
 dyndb.getQueryCount = function()
   return dyndb.m_QueryCount
 end
+
+hook.Add("InitPostEntity", "dyndb.connect", function()
+  dyndb.connect(function(objConnection, strError)
+    if(strError) then
+      error("[dyndb] "..strError)
+    end
+  end)
+end)
