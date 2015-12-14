@@ -12,7 +12,7 @@ local tblIDs = {
       strHostname = table.Random({
         "Vanilla!",
         "Super Fast Download!",
-        "Help",
+        "Send help, immediately",
       })
 
       return strHostname
