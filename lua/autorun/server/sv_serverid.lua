@@ -21,9 +21,6 @@ local tblIDs = {
         "Vanilla gameplay!",
         "Super FastDL!",
         "Looking for staff",
-        "I shot the sheriff",
-        "But I didn't shoot the deputy",
-        "xXxSuperScopezxXx",
       })
 
       return strHostname
