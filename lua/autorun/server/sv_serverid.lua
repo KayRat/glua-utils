@@ -81,4 +81,9 @@ end
 hook.Add("InitPostEntity", "serverid.setup", function()
   setupServerID()
   updateHostname()
+
+  local objServer = serverid.get()
+  if(objServer and objServer["postStart"]) then
+    objServer["postStart"]()
+  end
 end)
