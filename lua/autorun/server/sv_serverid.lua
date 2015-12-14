@@ -60,6 +60,8 @@ local tblIDs = {
 
           local strMap = table.Random(tblFiles)
 
+          print("\t--- Map changing to "..strMap)
+
           game.ConsoleCommand("changelevel "..string.sub(strMap, 0, string.len(strMap)-4).."\n")
         end
       end
