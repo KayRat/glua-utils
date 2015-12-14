@@ -7,7 +7,6 @@ local tblGlobal = {
     "sv_allowupload           0",
     "sv_allowcslua            0",
     "net_splitpacket_maxrate  50000",
-    "sv_visiblemaxplayers     "..(game.MaxPlayers()-8),
   }
 }
 
