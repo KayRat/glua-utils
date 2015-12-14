@@ -1,5 +1,16 @@
 serverid = serverid or {}
 
+local tblGlobal = {
+  ["convars"]   = {
+    "sv_downloadurl           https://bananatree.im/hippiedl/",
+    "sv_allowdownload         0",
+    "sv_allowupload           0",
+    "sv_allowcslua            0",
+    "net_splitpacket_maxrate  50000",
+    "sv_visiblemaxplayers     "..(game.MaxPlayers()-8),
+  }
+}
+
 local tblIDs = {
   [1] = {
     ["name"]            = "TTT",
@@ -40,7 +51,7 @@ local tblIDs = {
       "ttt_locational_voice           1",
       "ttt_allow_discomb_jump         1",
     },
-    ["postStart"]   = function()
+    ["postStart"]     = function()
       if(string.lower(game.GetMap()) == "gm_flatgrass") then
         local tblFiles,_ = file.Find("maps/ttt_*.bsp", "GAME")
 
@@ -83,11 +94,19 @@ serverid.get = function()
 end
 
 hook.Add("InitPostEntity", "serverid.setup", function()
+  if(tblGlobal) then
+    if(tblGlobal.config) then
+      for _,strCmd in pairs(tblGlobal.config) do
+        game.ConsoleCommand(strCmd.."\n")
+      end
+    end
+  end
+
   setupServerID()
   updateHostname()
 
   local objServer = serverid.get()
-  if(objServer and objServer["postStart"]) then
-    objServer["postStart"]()
+  if(objServer and objServer.postStart) then
+    objServer.postStart()
   end
 end)
