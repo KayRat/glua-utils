@@ -52,8 +52,8 @@ local tblIDs = {
       "ttt_allow_discomb_jump         1",
     },
     ["postStart"]     = function()
-      local function randomMap()
-        if(string.lower(game.GetMap()) == "gm_flatgrass") then
+      local function randomMap(bForceChange)
+        if(string.lower(game.GetMap()) == "gm_flatgrass" or bForceChange) then
           local tblFiles,_ = file.Find("maps/ttt_*.bsp", "GAME")
 
           if(#tblFiles <= 0) then return end
@@ -67,7 +67,7 @@ local tblIDs = {
       concommand.Add("ttt_random_map", function(objPl, strCmd, tblArgs)
         if(IsValid(objPl)) then return end
 
-        randomMap()
+        randomMap(true)
       end)
 
       randomMap()
