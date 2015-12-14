@@ -17,14 +17,12 @@ local tblIDs = {
       return GAMEMODE.Name == "Trouble in Terrorist Town"
     end,
     ["getHostname"]  = function()
-      local strHostname = "TBD"
-
-      strHostname = table.Random({
-        "Completely Vanilla!",
-        "Super Fast Download!",
+      local strHostname = table.Random({
+        "Vanilla gameplay!",
+        "Super FastDL!",
+        "Looking for staff",
         "I shot the sheriff",
         "But I didn't shoot the deputy",
-        "raz has a knife",
         "xXxSuperScopezxXx",
       })
 
@@ -82,7 +80,7 @@ local tblIDs = {
 local function updateHostname()
   local objServer = serverid.get()
 
-  RunConsoleCommand("hostname", "Hippie's "..objServer.name.." Server: "..objServer.getHostname())
+  RunConsoleCommand("hostname", "[ Hippie's "..objServer.name.." ] "..objServer.getHostname())
 end
 
 timer.Create("serverid.setHostname", 60 * 2, 0, updateHostname)
