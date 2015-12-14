@@ -27,7 +27,7 @@ local function getConnectionSettings()
     tblSettings["port"]     = tblData["port"] or 3306
     tblSettings["socket"]   = tblData["socket"] or nil
   else
-    error("[dyndb] config file not found")
+    error("[dyndb] data/dyndb_config.txt file not found; no connection to be made")
   end
 
   return tblSettings
