@@ -82,7 +82,7 @@ local tblIDs = {
 local function updateHostname()
   local objServer = serverid.get()
 
-  RunConsoleCommand("hostname", "Hippie's "..objServer.name..": "..objServer.getHostname())
+  RunConsoleCommand("hostname", "Hippie's "..objServer.name.." Server: "..objServer.getHostname())
 end
 
 timer.Create("serverid.setHostname", 60 * 2, 0, updateHostname)
