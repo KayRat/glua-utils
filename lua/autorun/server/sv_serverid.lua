@@ -44,6 +44,8 @@ local tblIDs = {
       if(string.lower(game.GetMap()) == "gm_flatgrass") then
         local tblFiles,_ = file.Find("maps/ttt_*.bsp", "GAME")
 
+        if(#tblFiles <= 0) then return end
+
         local strMap = table.Random(tblFiles)
 
         RunConsoleCommand("changelevel", string.sub(strMap, 0, string.len(strMap)-4))
