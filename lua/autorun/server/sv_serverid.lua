@@ -10,7 +10,7 @@ local tblIDs = {
       local strHostname = "TBD"
 
       strHostname = table.Random({
-        "Vanilla TTT!",
+        "Vanilla!",
         "Super Fast Download!",
         "Help",
       })
@@ -44,7 +44,9 @@ local tblIDs = {
       if(string.lower(game.GetMap()) == "gm_flatgrass") then
         local tblFiles,_ = file.Find("maps/ttt_*.bsp", "GAME")
 
-        RunConsoleCommand("changelevel", table.Random(tblFiles))
+        local strMap = table.Random(tblFiles)
+
+        RunConsoleCommand("changelevel", string.sub(strMap, 0, string.len(strMap)-4))
       end
     end,
   }
