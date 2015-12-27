@@ -12,6 +12,13 @@ local tblGlobal = {
 
 local tblIDs = {
   [1] = {
+    ["name"]            = "Dev Box",
+    ["convars"]         = {
+      "sv_allowcslua      1",
+      "sbox_godmode       1",
+    },
+  },
+  [2] = {
     ["name"]            = "TTT",
     ["check"]           = function()
       return GAMEMODE.Name == "Trouble in Terrorist Town"
@@ -25,7 +32,7 @@ local tblIDs = {
 
       return strHostname
     end,
-    ["config"]          = {
+    ["convars"]          = {
       "ttt_firstpreptime              45",
       "ttt_posttime_seconds           20",
       "ttt_round_limit                5",
@@ -77,7 +84,7 @@ local tblIDs = {
 local function updateHostname()
   local objServer = serverid.get()
 
-  RunConsoleCommand("hostname", "[ Hippie's "..objServer.name.." ] "..objServer.getHostname())
+  RunConsoleCommand("hostname", "[ Hippie's "..objServer.name.." ] "..(objServer.getHostname and objServer.getHostname() or ""))
 end
 
 timer.Create("serverid.setHostname", 60 * 2, 0, updateHostname)
@@ -87,8 +94,8 @@ local function setupServerID()
     if(v.check and v.check()) then
       serverid.m_currentServer = k
 
-      if(v.config) then
-        for _,strCmd in pairs(v.config) do
+      if(v.convars) then
+        for _,strCmd in pairs(v.convars) do
           game.ConsoleCommand(strCmd.."\n");
         end
       end
