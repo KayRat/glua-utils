@@ -1,10 +1,13 @@
 dyndb = dyndb or {}
 dyndb.m_Connection = dyndb.m_Connection or nil
 dyndb.m_QueryCount = dyndb.m_QueryCount or 0
+dyndb.query = function() end
 
-require("tmysql4")
-
-if(not tmysql) then error("tmysql4 failed to load; no database functionality, aka a lot of crap will be broken") end
+if(not file.Exists("bin/gm*_tmysql4*.dll", "LUA")) then
+  error("tmysql4 module not installed, all database queries wil fail")
+else
+  require("tmysql4")
+end
 
 local function getConnectionSettings()
   local tblSettings = {
@@ -53,6 +56,8 @@ dyndb.connect = function(objCallback)
 end
 
 dyndb.escape = function(str)
+  if(not dyndb.m_Connection) then return sql.SQLStr(str, true) end
+
   return dyndb.m_Connection:Escape(str)
 end
 
@@ -66,7 +71,9 @@ dyndb.query = function(strQuery, tblFormatData, objCallback)
     end
   end
 
-  dyndb.m_Connection:Query(strQuery, (type(tblFormatData) == "table" and objCallback or tblFormatData))
+  if(dyndb.m_Connection) then
+    dyndb.m_Connection:Query(strQuery, (type(tblFormatData) == "table" and objCallback or tblFormatData))
+  end
   dyndb.m_QueryCount = dyndb.m_QueryCount+1
 end
 
