@@ -157,16 +157,19 @@ function hook:add(hookName, callbackFn)
 end
 
 function hook:fire(hookName, ...)
+    local args = {...}
     for _, v in pairs(self.hooks) do
         if v[1] == hookName then
-            local ret = {v[2](...)}
+            local ret = {v[2](unpack(args))}
 
-            -- Return data if there was a return value
+            -- Overwrite the original value, but do pass it on to the next hook if any
             if ret[0] then
-                return unpack(ret)
+                args = ret
             end
         end
     end
+
+    return unpack(args)
 end
 
 ----
@@ -183,6 +186,9 @@ function instancer:classIsGlobal(obj)
 end
 
 function instancer:initClass(classFormat)
+    -- Call the beforeInitClass hook
+    local classFormat = simploo.hook:fire("beforeInitClass", classFormat) or classFormat
+
     -- Store class format
     instancer.classFormats[classFormat.name] = classFormat
 
@@ -206,7 +212,7 @@ function instancer:initClass(classFormat)
 
         for memberName, memberData in pairs(copy.members) do
             if memberData.modifiers.abstract then
-                error("class %s: can not instantiate because it has unimplemented abstract members")
+                error(string.format("class %s: can not instantiate because it has unimplemented abstract members", copy.className))
             end
         end
 
@@ -451,9 +457,10 @@ function instancer:initClass(classFormat)
     end
 
     setmetatable(instance, meta)
-
+    
     -- Initialize the instance for use
     self:initInstance(instance)
+
 
     return instance
 end
@@ -686,13 +693,13 @@ function syntax.class(className, classOperation)
     end
 
     simploo.parser.instance = simploo.parser:new(onFinished)
-    simploo.parser.instance:setOnFinished(function(self, output)
+    simploo.parser.instance:setOnFinished(function(self, parserOutput)
         -- Set parser instance to nil first, before calling the instancer, so that if the instancer errors out it's not going to reuse the old simploo.parser again
         simploo.parser.instance = nil
         
         -- Create a class instance
         if simploo.instancer then
-            local instance = simploo.instancer:initClass(output)
+            local instance = simploo.instancer:initClass(parserOutput)
 
             -- Add the newly created class to the 'using' list, so that any other classes in this namespace don't have to reference to it using the full path.
             syntax.using(instance:get_name())
