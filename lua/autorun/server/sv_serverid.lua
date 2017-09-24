@@ -139,7 +139,7 @@ hook.Add("InitPostEntity", "serverid.setup", function()
     if(tblGlobal.convars) then
       for _,tblCmd in pairs(tblGlobal.convars) do
         RunConsoleCommand(tblCmd[1], tblCmd[2])
-        logger:debug("running concommand '%s -> %s'", tblCmd[1], tblCmd[2])
+        logger:debug("running concommand '%s' -> '%s'", tblCmd[1], tblCmd[2])
       end
     end
   end
