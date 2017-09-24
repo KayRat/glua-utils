@@ -106,13 +106,22 @@ local function setupServerID()
       return
     end
   end
+
+  logger:setPrefix("server # "..serverid.getID())
 end
 
 serverid.get = function()
   return table.Copy(tblIDs[serverid.m_currentServer or 1] or {})
 end
 
+serverid.getID = function()
+  return serverid.m_currentServer or 1
+end
+
 hook.Add("InitPostEntity", "serverid.setup", function()
+  setupServerID()
+  updateHostname()
+
   if(tblGlobal) then
     if(tblGlobal.convars) then
       for _,tblCmd in pairs(tblGlobal.convars) do
@@ -121,9 +130,6 @@ hook.Add("InitPostEntity", "serverid.setup", function()
       end
     end
   end
-
-  setupServerID()
-  updateHostname()
 
   local objServer = serverid.get()
   if(objServer and objServer.postStart) then
