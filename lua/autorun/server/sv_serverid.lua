@@ -1,12 +1,14 @@
 serverid = serverid or {}
 
+local logger = ubilog.new("serverid")
+
 local tblGlobal = {
   ["convars"]   = {
-    "sv_downloadurl           https://bananatree.im/dl/",
-    "sv_allowdownload         0",
-    "sv_allowupload           0",
-    "sv_allowcslua            0",
-    "net_splitpacket_maxrate  50000",
+    {"sv_downloadurl", "https://bananatree.im/dl/"},
+    {"sv_allowdownload", "0"},
+    {"sv_allowupload", "0"},
+    {"sv_allowcslua", "0"},
+    {"net_splitpacket_maxrate", "50000"},
   }
 }
 
@@ -85,6 +87,7 @@ local function updateHostname()
   local objServer = serverid.get()
 
   RunConsoleCommand("hostname", "/"..objServer.name.."/ "..(objServer.getHostname and objServer.getHostname() or ""))
+  logger:debug("updating hostname to: /%s/ %s", objServer.name, (objServer.getHostname and objServer.getHostname() or ""))
 end
 
 timer.Create("serverid.setHostname", 60 * 2, 0, updateHostname)
@@ -111,9 +114,10 @@ end
 
 hook.Add("InitPostEntity", "serverid.setup", function()
   if(tblGlobal) then
-    if(tblGlobal.config) then
-      for _,strCmd in pairs(tblGlobal.config) do
-        game.ConsoleCommand(strCmd.."\n")
+    if(tblGlobal.convars) then
+      for _,tblCmd in pairs(tblGlobal.convars) do
+        RunConsoleCommand(tblCmd[1], tblCmd[2])
+        logger:debug("running concommand '%s -> %s'", tblCmd[1], tblCmd[2])
       end
     end
   end
