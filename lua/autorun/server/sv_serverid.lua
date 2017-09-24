@@ -2,7 +2,7 @@ serverid = serverid or {}
 
 local tblGlobal = {
   ["convars"]   = {
-    "sv_downloadurl           https://bananatree.im/hippiedl/",
+    "sv_downloadurl           https://bananatree.im/dl/",
     "sv_allowdownload         0",
     "sv_allowupload           0",
     "sv_allowcslua            0",
