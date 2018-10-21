@@ -27,7 +27,6 @@ local tblIDs = {
     end,
     ["getHostname"]  = function()
       local strHostname = table.Random({
-        "Vanilla gameplay!",
         "Super FastDL!",
         "Looking for staff",
       })
@@ -79,19 +78,6 @@ local tblIDs = {
       end)
 
       randomMap()
-    end,
-  },
-  [3] = {
-    ["name"]            = "HogwartsRP",
-    ["check"]           = function()
-      return GAMEMODE.Name == "HogwartsRP"
-    end,
-    ["getHostname"]  = function()
-      local strHostname = table.Random({
-        "Just launched!",
-      })
-
-      return strHostname
     end,
   }
 }
